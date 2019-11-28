@@ -8,8 +8,7 @@ func isRedisHealthy() bool {
 	return true
 }
 
-func GetServiceHealth() response.ServiceHealth{
-
+func GetServiceHealth() response.ServiceHealth {
 	// Initialize service healthy
 	isServiceHealthy := true
 
@@ -20,11 +19,10 @@ func GetServiceHealth() response.ServiceHealth{
 	}
 
 	// Define service health
-	serviceHealth := response.ServiceHealth{IsHealthy:isServiceHealthy, HealthComponents: []response.HealthComponent{}}
+	serviceHealth := response.ServiceHealth{IsHealthy: isServiceHealthy, HealthComponents: []response.HealthComponent{}}
 
 	// Add health components
 	serviceHealth.HealthComponents = append(serviceHealth.HealthComponents, redisHealth)
 
 	return serviceHealth
-
 }

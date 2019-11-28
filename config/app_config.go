@@ -9,8 +9,9 @@ import (
  */
 
 var (
-	ServerPort                                   = "4000"
-	LogLevel                                     = GetEnv("LOG_LEVEL", "info")
+	DBConnectionString = "root:@tcp(127.0.0.1:3306)/grabathon?charset=utf8mb4&parseTime=True"
+	ServerPort         = "4000"
+	LogLevel           = GetEnv("LOG_LEVEL", "info")
 )
 
 // get environment variable

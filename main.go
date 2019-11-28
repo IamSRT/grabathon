@@ -17,7 +17,6 @@ import (
  */
 
 func main() {
-
 	router := getRouter()
 	util.PrintAllRoutes(router)
 
