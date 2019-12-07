@@ -14,6 +14,8 @@ func AddUserRoutes(r chi.Router) chi.Router {
 	r.Put("/user/update", handler.UpdateUserHandler)
 	r.Post("/user/create", handler.CreateUserHandler)
 	r.Post("/user/vouch", handler.Vouch)
+	r.Post("/user/is-auto-pay-enabled", handler.IsAutoPayEnabled)
+	r.Post("/user/is-vouch-valid", handler.IsVouchValid)
 	r.Post("/user/enable-auto_pay", handler.EnableAutoPay)
 	return r
 }

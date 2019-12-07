@@ -35,3 +35,21 @@ func UpdateWallet(wallet request_response.Wallet) request_response.Wallet {
 
 	return request_response.GetWalletRequestResponse(wlt)
 }
+
+func UpdateWalletWithAmount(userId string, amount float64) error {
+	wlt, err := models.GetWallet(userId)
+	if err != nil { return err}
+
+	wlt.Balance += amount
+	wlt, err = models.UpdateWallet(wlt)
+	return err
+}
+
+func UpdateWalletsForTransaction(txn models.Transaction) error {
+	err := UpdateWalletWithAmount(txn.SourceId, -txn.Amount)
+	if err != nil { return err}
+
+	err = UpdateWalletWithAmount(txn.DestinationId, +txn.Amount)
+	if err != nil { return err}
+	return err
+}

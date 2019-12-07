@@ -12,6 +12,7 @@ type Vouch struct {
 	VoucheeId string
 	VoucherId string
 	VouchType string
+	Amount    float64
 }
 
 func GetVouchRequestResponse(vouch models.Vouch) Vouch {
@@ -24,6 +25,7 @@ func GetVouchRequestResponse(vouch models.Vouch) Vouch {
 		VoucheeId: vouch.VoucheeId,
 		VoucherId: vouch.VoucherId,
 		VouchType: vouch.VouchType,
+		Amount: vouch.Amount,
 	}
 
 	return vch
@@ -39,6 +41,7 @@ func GetVouchModel(vouch Vouch) models.Vouch {
 		VoucheeId: vouch.VoucheeId,
 		VoucherId: vouch.VoucherId,
 		VouchType: vouch.VouchType,
+		Amount: vouch.Amount,
 	}
 
 	return vch

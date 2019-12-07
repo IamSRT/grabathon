@@ -72,3 +72,21 @@ func Vouch(userId string, autoPayees []string) []request_response.Vouch {
 
 	return CreateVouches(vouches)
 }
+
+func IsAutoEnabled(voucheeId string, voucherId string) bool {
+	f := GetUser(voucherId).AutoPay
+	f = f && models.IsVouch(voucheeId, voucherId, models.AutoPay)
+	return f
+}
+
+func IsVouchValid(voucheeId string, voucherId string, amount float64) bool {
+	wlt, err := models.GetWallet(voucherId)
+	if err != nil {
+		return false
+	}
+
+	if wlt.Balance > amount {
+		return true
+	}
+	return false
+}

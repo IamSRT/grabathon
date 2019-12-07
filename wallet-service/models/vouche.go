@@ -10,6 +10,7 @@ type Vouch struct {
 	VoucheeId string
 	VoucherId string
 	VouchType string
+	Amount float64
 }
 
 const (
@@ -35,6 +36,21 @@ func GetVouch(id int)(Vouch, error){
 	var vouch Vouch
 	db.Find(&vouch, id)
 	return vouch, nil
+}
+
+func IsVouch(voucheeId string, voucherId string, vouchType string) bool {
+	var vouches []Vouch
+	if err := db.Where("vouchee_id = ? AND vouch_type = ?", voucheeId, vouchType).Find(&vouches).Error; err != nil {
+		return false
+	}
+
+	for _, v := range vouches {
+		if v.VoucherId == voucherId {
+			return true
+		}
+	}
+
+	return false
 }
 
 

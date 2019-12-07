@@ -64,6 +64,30 @@ func Vouch(w http.ResponseWriter, r *http.Request) {
 	util.Send(w, r, "", userResponse)
 }
 
+func IsAutoPayEnabled(w http.ResponseWriter, r *http.Request) {
+	vouch := request_response.Vouch{}
+	decodeErr := render.DecodeJSON(r.Body, &vouch)
+	if decodeErr != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	vouchResponse := service.IsAutoEnabled(vouch.VoucheeId, vouch.VoucherId)
+	util.Send(w, r, "", vouchResponse)
+}
+
+func IsVouchValid(w http.ResponseWriter, r *http.Request) {
+	vouch := request_response.Vouch{}
+	decodeErr := render.DecodeJSON(r.Body, &vouch)
+	if decodeErr != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	vouchResponse := service.IsVouchValid(vouch.VoucheeId, vouch.VoucherId, vouch.Amount)
+	util.Send(w, r, "", vouchResponse)
+}
+
 func GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 	users := service.GetAllUsers()
 	util.Send(w, r, "", users)
