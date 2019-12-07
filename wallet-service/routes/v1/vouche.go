@@ -13,6 +13,8 @@ func AddVouchRoutes(r chi.Router) chi.Router {
 	})
 
 	r.Post("/vouch/create", handler.CreateVouchHandler)
+	r.Post("/vouch/{id}/accept", handler.AcceptVouch)
+	r.Post("/vouch/{id}/reject", handler.RejectVouch)
 	r.Post("/vouch/update", handler.UpdateVouchHandler)
 	r.Post("/vouches/create", handler.CreateVouchesHandler)
 	r.Delete("/vouch/{id}", handler.DeleteVouchHandler)
