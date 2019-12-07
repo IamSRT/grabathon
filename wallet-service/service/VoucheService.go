@@ -13,11 +13,7 @@ import (
 func CreateVouches(vouches []request_response.Vouch) []request_response.Vouch {
 	var vchs []models.Vouch
 	for _,v := range vouches{
-		vchs = append(vchs, models.Vouch{
-			VoucheeId: v.VoucherId,
-			VoucherId: "",
-			VouchType: "",
-		})
+		vchs = append(vchs, request_response.GetVouchModel(v))
 	}
 	vchs, err := models.CreateVouches(vchs)
 	if err != nil {
@@ -26,11 +22,7 @@ func CreateVouches(vouches []request_response.Vouch) []request_response.Vouch {
 
 	var vchsResponse []request_response.Vouch
 	for _,v := range vchs{
-		vchsResponse = append(vchsResponse, request_response.Vouch{
-			VoucheeId: v.VoucherId,
-			VoucherId: v.VoucheeId,
-			VouchType: v.VouchType,
-		})
+		vchsResponse = append(vchsResponse, request_response.GetVouchRequestResponse(v))
 	}
 	return vchsResponse
 }

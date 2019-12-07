@@ -47,29 +47,23 @@ func UpdateUser(user request_response.User) request_response.User {
 	return request_response.GetUserRequestResponse(usr,w)
 }
 
-func EnableAutoPay(userId string, autoPayees []string) []request_response.Vouch {
-	var vouches []request_response.Vouch
-	for _,autoPayee := range autoPayees{
-		vouches = append(vouches, request_response.Vouch{
-			VoucheeId: autoPayee,
-			VoucherId: userId,
-			VouchType: models.AutoPay,
-		})
+func EnableAutoPay(vouches []request_response.Vouch) []request_response.Vouch {
+	for i := range vouches{
+		vouches[i].VouchType = models.AutoPay
 	}
+	usr, err := models.GetUser(vouches[0].VoucherId)
+	if err != nil { return nil }
 
+	usr.AutoPay = true
+	usr, err =models.UpdateUser(usr)
+	if err != nil { return nil }
 	return CreateVouches(vouches)
 }
 
-func Vouch(userId string, autoPayees []string) []request_response.Vouch {
-	var vouches []request_response.Vouch
-	for _,autoPayee := range autoPayees{
-		vouches = append(vouches, request_response.Vouch{
-			VoucheeId: autoPayee,
-			VoucherId: userId,
-			VouchType: models.Default,
-		})
+func Vouch(vouches []request_response.Vouch) []request_response.Vouch {
+	for i := range vouches{
+		vouches[i].VouchType = models.Default
 	}
-
 	return CreateVouches(vouches)
 }
 

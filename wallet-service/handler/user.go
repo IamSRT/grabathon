@@ -41,27 +41,27 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func EnableAutoPay(w http.ResponseWriter, r *http.Request) {
-	vouches := request_response.Vouches{}
+	var vouches request_response.Vouches
 	decodeErr := render.DecodeJSON(r.Body, &vouches)
 	if decodeErr != nil {
 		util.SendInternalServerError(w, r, "Failed to parse input request")
 		return
 	}
 
-	userResponse := service.EnableAutoPay(vouches.Voucher, vouches.Vouchees)
+	userResponse := service.EnableAutoPay(vouches.Vouches)
 	util.Send(w, r, "", userResponse)
 }
 
 func Vouch(w http.ResponseWriter, r *http.Request) {
-	vouches := request_response.Vouches{}
+	var vouches request_response.Vouches
 	decodeErr := render.DecodeJSON(r.Body, &vouches)
 	if decodeErr != nil {
 		util.SendInternalServerError(w, r, "Failed to parse input request")
 		return
 	}
 
-	userResponse := service.Vouch(vouches.Voucher, vouches.Vouchees)
-	util.Send(w, r, "", userResponse)
+	vouchesResponse := service.Vouch(vouches.Vouches)
+	util.Send(w, r, "", vouchesResponse)
 }
 
 func IsAutoPayEnabled(w http.ResponseWriter, r *http.Request) {

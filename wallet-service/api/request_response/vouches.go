@@ -6,6 +6,5 @@ package request_response
  */
 
 type Vouches struct {
-	Voucher string
-	Vouchees []string
+	Vouches []Vouch
 }

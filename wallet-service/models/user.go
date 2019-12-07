@@ -36,7 +36,8 @@ func GetAllUsers()([]User, error){
 }
 
 func UpdateUser(user User)(User, error){
-	if err := db.Model(&user).Updates(user).Error; err != nil {
+	var usr User
+	if err := db.Where("phone_number = ?", user.PhoneNumber).Find(&usr).Updates(user).Error; err != nil {
 		return User{}, err
 	}
 	return user, nil
