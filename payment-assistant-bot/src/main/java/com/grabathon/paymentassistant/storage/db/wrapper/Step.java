@@ -15,15 +15,18 @@ public class Step {
 
     private Integer priority;
 
-    private List<Action> actions;
+    private List<Action> requesterActions;
+    private List<Action> requesteeActions;
 
-    private List<Template> templates;
+    private List<Template> requesterTemplates;
+    private List<Template> requesteeTemplates;
 
     private String nextSteps;
 
     private String description;
 
-    private String renderType;
+    private String requesterRenderType;
+    private String requesteeRenderType;
 
     private String rule;
 

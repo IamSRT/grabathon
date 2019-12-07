@@ -84,21 +84,28 @@ import java.util.stream.Collectors;
         Map<Long, com.grabathon.paymentassistant.storage.db.wrapper.Step> newCache = new ConcurrentHashMap<>();
         List<Step> all = stepRepository.findAll();
         for (Step s : all) {
-            List<com.grabathon.paymentassistant.storage.db.wrapper.Action> actions =
-                    Arrays.stream(s.getActions().split(",")).filter(id -> !StringUtils.isEmpty(id)).map(id -> actionCache.get(Long.parseLong(id))).collect(Collectors.toList());
+            List<com.grabathon.paymentassistant.storage.db.wrapper.Action> requesterActions =
+                    Arrays.stream(s.getRequesterActions().split(",")).filter(id -> !StringUtils.isEmpty(id)).map(id -> actionCache.get(Long.parseLong(id))).collect(Collectors.toList());
+            List<com.grabathon.paymentassistant.storage.db.wrapper.Action> requesteeActions =
+                    Arrays.stream(s.getRequesteeActions().split(",")).filter(id -> !StringUtils.isEmpty(id)).map(id -> actionCache.get(Long.parseLong(id))).collect(Collectors.toList());
 
-            List<com.grabathon.paymentassistant.storage.db.wrapper.Template> templates =
-                    Arrays.stream(s.getTemplates().split(",")).filter(id -> !StringUtils.isEmpty(id)).map(id -> templateCache.get(Long.parseLong(id))).collect(Collectors.toList());
+            List<com.grabathon.paymentassistant.storage.db.wrapper.Template> requesterTemplates =
+                    Arrays.stream(s.getRequesterTemplates().split(",")).filter(id -> !StringUtils.isEmpty(id)).map(id -> templateCache.get(Long.parseLong(id))).collect(Collectors.toList());
+            List<com.grabathon.paymentassistant.storage.db.wrapper.Template> requesteeTemplates =
+                    Arrays.stream(s.getRequesteeTemplates().split(",")).filter(id -> !StringUtils.isEmpty(id)).map(id -> templateCache.get(Long.parseLong(id))).collect(Collectors.toList());
 
             newCache.put(s.getId(), new com.grabathon.paymentassistant.storage.db.wrapper.Step(
                     s.getId(),
                     s.getTitle(),
                     s.getPriority(),
-                    actions,
-                    templates,
+                    requesterActions,
+                    requesteeActions,
+                    requesterTemplates,
+                    requesteeTemplates,
                     s.getNextSteps(),
                     s.getDescription(),
-                    s.getRenderType(),
+                    s.getRequesterRenderType(),
+                    s.getRequesteeRenderType(),
                     s.getRule()
             ));
         }

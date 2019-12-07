@@ -16,11 +16,17 @@ import javax.persistence.*;
     @Column (name = "priority")
     private Integer priority;
 
-    @Column (name = "actions")
-    private String actions;
+    @Column (name = "requester_actions")
+    private String requesterActions;
 
-    @Column (name = "templates")
-    private String templates;
+    @Column (name = "requestee_actions")
+    private String requesteeActions;
+
+    @Column (name = "requester_templates")
+    private String requesterTemplates;
+
+    @Column (name = "requestee_templates")
+    private String requesteeTemplates;
 
     @Column (name = "next_steps")
     private String nextSteps;
@@ -28,8 +34,11 @@ import javax.persistence.*;
     @Column (name = "description")
     private String description;
 
-    @Column (name = "render_type")
-    private String renderType;
+    @Column (name = "requester_render_type")
+    private String requesterRenderType;
+
+    @Column (name = "requestee_render_type")
+    private String requesteeRenderType;
 
     @Column (name = "rule")
     private String rule;

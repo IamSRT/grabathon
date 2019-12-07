@@ -1,7 +1,7 @@
 package com.grabathon.paymentassistant.orchestration.orchestrator;
 
-import com.grabathon.paymentassistant.web.api.response.vo.StepResponseVO;
-import com.grabathon.paymentassistant.web.api.response.vo.TemplateResponseVO;
+import com.grabathon.paymentassistant.web.api.response.vo.base.StepResponseVO;
+import com.grabathon.paymentassistant.web.api.response.vo.base.TemplateResponseVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

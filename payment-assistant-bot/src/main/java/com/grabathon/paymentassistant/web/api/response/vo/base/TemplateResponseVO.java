@@ -1,4 +1,4 @@
-package com.grabathon.paymentassistant.web.api.response.vo;
+package com.grabathon.paymentassistant.web.api.response.vo.base;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grabathon.paymentassistant.storage.db.wrapper.Template;

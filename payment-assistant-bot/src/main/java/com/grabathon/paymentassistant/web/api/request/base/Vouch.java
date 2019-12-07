@@ -2,7 +2,8 @@ package com.grabathon.paymentassistant.web.api.request.base;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Vouch{
+public class Vouch {
+
     @JsonProperty("id")
     public String Id;
 
@@ -17,4 +18,5 @@ public class Vouch{
 
     @JsonProperty("amount")
     public Float Amount;
+
 }
