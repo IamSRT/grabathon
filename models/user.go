@@ -1,19 +1,17 @@
 package models
 
-import "github.com/jinzhu/gorm"
-
 /**
  * Created by Sai Ravi Teja K on 28, Nov 2019
  * © Bundl Technologies Private Ltd.
  */
 
 type User struct {
-	gorm.Model
-	Id         int
-	Name       string
-	City       string
-	Email      string
-	VouchCount int
+	PhoneNumber string
+	AutoPay     bool
+	Name        string
+	City        string
+	Email       string
+	VouchCount  int
 }
 
 func CreateUser(user User) (User, error) {
@@ -21,9 +19,9 @@ func CreateUser(user User) (User, error) {
 	return user, nil
 }
 
-func GetUser(id int)(User, error){
+func GetUser(id string)(User, error){
 	var user User
-	db.Find(&user, id)
+	db.Find(&user, User{PhoneNumber:id})
 	return user, nil
 }
 

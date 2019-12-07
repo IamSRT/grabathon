@@ -9,7 +9,7 @@ import "grabathon/models"
 
 type Wallet struct {
 	Id      int
-	UserId  int
+	UserId  string
 	Balance float64
 }
 

@@ -7,7 +7,6 @@ import (
 	"grabathon/service"
 	"grabathon/util"
 	"net/http"
-	"strconv"
 )
 
 func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -25,12 +24,7 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 	userId := chi.URLParam(r, "id")
-	id, err := strconv.Atoi(userId)
-	if err != nil {
-		util.SendInternalServerError(w, r, "Failed to parse input request")
-		return
-	}
-	user := service.GetUser(id)
+	user := service.GetUser(userId)
 	util.Send(w, r, "", user)
 }
 

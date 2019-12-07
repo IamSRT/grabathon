@@ -10,22 +10,23 @@ import (
  */
 
 type User struct {
-	Id int
-	Email string
-	Name string
-	City string
-	VouchCount int
-	Wallet
+	PhoneNumber string
+	Email       string
+	Name        string
+	City        string
+	VouchCount  int
+	AutoPay     bool
+	Wallet      Wallet
 }
 
 func GetUserRequestResponse(user models.User, w Wallet) User {
 	usr := User{
-		Id:         user.Id,
-		Email:      user.Email,
-		Name:       user.Name,
-		City:       user.City,
-		VouchCount: user.VouchCount,
-		Wallet: w,
+		PhoneNumber: user.PhoneNumber,
+		Email:       user.Email,
+		Name:        user.Name,
+		City:        user.City,
+		VouchCount:  user.VouchCount,
+		Wallet:      w,
 	}
 
 	return usr
@@ -33,11 +34,11 @@ func GetUserRequestResponse(user models.User, w Wallet) User {
 
 func GetUserModel(user User) models.User {
 	usr := models.User{
-		Id:         user.Id,
-		Email:      user.Email,
-		Name:       user.Name,
-		City:       user.City,
-		VouchCount: user.VouchCount,
+		PhoneNumber: user.PhoneNumber,
+		Email:       user.Email,
+		Name:        user.Name,
+		City:        user.City,
+		VouchCount:  user.VouchCount,
 	}
 
 	return usr

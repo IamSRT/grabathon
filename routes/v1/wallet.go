@@ -8,7 +8,9 @@ import (
 func AddWalletRoutes(r chi.Router) chi.Router {
 	r.Route("/wallet", func(r chi.Router) {
 		r.Get("/{id}", handler.GetWalletHandler)
-		r.Put("/wallet", handler.UpdateWalletHandler)
+		r.Put("/", handler.UpdateWalletHandler)
 	})
+
+	r.Post("/wallet/create", handler.CreateWalletHandler)
 	return r
 }

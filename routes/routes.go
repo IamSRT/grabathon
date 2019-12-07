@@ -20,6 +20,7 @@ func ConfigureRoutes(router *chi.Mux) chi.Router {
 		router.Route("/api", func(r chi.Router) {
 			routesv1.AddUserRoutes(r)
 			routesv1.AddWalletRoutes(r)
+			routesv1.AddVouchRoutes(r)
 		})
 	})
 	return router

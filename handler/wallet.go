@@ -7,7 +7,6 @@ import (
 	"grabathon/service"
 	"grabathon/util"
 	"net/http"
-	"strconv"
 )
 
 func CreateWalletHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,13 +23,8 @@ func CreateWalletHandler(w http.ResponseWriter, r *http.Request) {
 
 
 func GetWalletHandler(w http.ResponseWriter, r *http.Request) {
-	walletId := chi.URLParam(r, "id")
-	id, err := strconv.Atoi(walletId)
-	if err != nil {
-		util.SendInternalServerError(w, r, "Failed to parse input request")
-		return
-	}
-	wallet := service.GetWallet(id)
+	userId := chi.URLParam(r, "id")
+	wallet := service.GetWallet(userId)
 	util.Send(w, r, "", wallet)
 }
 

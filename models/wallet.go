@@ -7,16 +7,18 @@ package models
 
 type Wallet struct {
 	Id      int
-	UserId  int
+	UserId  string
 	Balance float64
 }
 
 func CreateWallet(w Wallet) (Wallet, error) {
-	db.Create(&w)
+	if err := db.Create(&w).Error; err != nil {
+		return Wallet{}, err
+	}
 	return w, nil
 }
 
-func GetWallet(userId int)(Wallet, error) {
+func GetWallet(userId string)(Wallet, error) {
 	var wallet Wallet
 	db.FirstOrCreate(&wallet, Wallet{
 		UserId: userId,

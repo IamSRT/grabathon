@@ -15,7 +15,7 @@ func CreateUser(user request_response.User) request_response.User {
 	if err != nil {
 		return request_response.User{}
 	}
-	w := GetWallet(usr.Id)
+	w := GetWallet(usr.PhoneNumber)
 	return request_response.GetUserRequestResponse(usr, w)
 }
 
@@ -27,12 +27,12 @@ func GetAllUsers() []request_response.User {
 	return []request_response.User{}
 }
 
-func GetUser(id int) request_response.User {
+func GetUser(id string) request_response.User {
 	usr, err := models.GetUser(id)
 	if err != nil {
 		return request_response.User{}
 	}
-	w := GetWallet(usr.Id)
+	w := GetWallet(usr.PhoneNumber)
 	return request_response.GetUserRequestResponse(usr,w)
 }
 
@@ -41,6 +41,6 @@ func UpdateUser(user request_response.User) request_response.User {
 	if err != nil {
 		return request_response.User{}
 	}
-	w := GetWallet(usr.Id)
+	w := GetWallet(usr.PhoneNumber)
 	return request_response.GetUserRequestResponse(usr,w)
 }

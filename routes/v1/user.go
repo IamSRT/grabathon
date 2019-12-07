@@ -7,10 +7,11 @@ import (
 
 func AddUserRoutes(r chi.Router) chi.Router {
 	r.Route("/user", func(r chi.Router) {
-		r.Get("/", handler.GetAllUsersHandler)
+		r.Get("/users", handler.GetAllUsersHandler)
 		r.Get("/{id}", handler.GetUserHandler)
-		r.Post("/user", handler.CreateUserHandler)
-		r.Put("/user", handler.UpdateUserHandler)
+		//r.Put("/", handler.UpdateUserHandler)
 	})
+
+	r.Post("/user/create", handler.CreateUserHandler)
 	return r
 }

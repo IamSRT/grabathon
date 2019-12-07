@@ -1,0 +1,66 @@
+package service
+
+import (
+	"grabathon/api/request_response"
+	"grabathon/models"
+)
+
+/**
+ * Created by Sai Ravi Teja K on 28, Nov 2019
+ * © Bundl Technologies Private Ltd.
+ */
+
+func CreateVouch(vouch request_response.Vouch) request_response.Vouch {
+	vch, err := models.CreateVouch(request_response.GetVouchModel(vouch))
+	if err != nil {
+		return request_response.Vouch{}
+	}
+
+	return request_response.GetVouchRequestResponse(vch)
+}
+
+func GetVouch(id int) request_response.Vouch {
+	vch, err := models.GetVouch(id)
+	if err != nil {
+		return request_response.Vouch{}
+	}
+	return request_response.GetVouchRequestResponse(vch)
+}
+
+func GetAllVouchesForVouchee(voucheeId string) []request_response.Vouch {
+	vches, err := models.GetAllVouchesForVouchee(voucheeId)
+	if err != nil {
+		return []request_response.Vouch{}
+	}
+
+	var vouchesResponse []request_response.Vouch
+	for _,v := range vches {
+		vouchesResponse = append(vouchesResponse, request_response.GetVouchRequestResponse(v))
+	}
+
+	return vouchesResponse
+}
+
+func GetAllVouchesForVoucher(voucherId string) []request_response.Vouch {
+	vches, err := models.GetAllVouchesForVoucher(voucherId)
+	if err != nil {
+		return []request_response.Vouch{}
+	}
+
+	var vouchesResponse []request_response.Vouch
+	for _,v := range vches {
+		vouchesResponse = append(vouchesResponse, request_response.GetVouchRequestResponse(v))
+	}
+
+	return vouchesResponse
+}
+
+func DeleteVouch(id int) error {
+	v := models.Vouch{
+		Id:        id,
+		VoucheeId: "",
+		VoucherId: "",
+	}
+	err := models.DeleteVouch(v)
+	return err
+}

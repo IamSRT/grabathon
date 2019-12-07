@@ -19,8 +19,8 @@ func CreateWallet(wallet request_response.Wallet) request_response.Wallet {
 	return request_response.GetWalletRequestResponse(wlt)
 }
 
-func GetWallet(id int) request_response.Wallet {
-	wlt, err := models.GetWallet(id)
+func GetWallet(userId string) request_response.Wallet {
+	wlt, err := models.GetWallet(userId)
 	if err != nil {
 		return request_response.Wallet{}
 	}
