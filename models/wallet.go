@@ -27,7 +27,9 @@ func GetWallet(userId string)(Wallet, error) {
 }
 
 func UpdateWallet(wallet Wallet)(Wallet, error){
-	db.Save(&wallet)
+	if err := db.Model(&wallet).Updates(wallet).Error; err != nil {
+		return Wallet{}, err
+	}
 	return wallet, nil
 }
 

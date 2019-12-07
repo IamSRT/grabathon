@@ -22,6 +22,18 @@ func CreateVouchHandler(w http.ResponseWriter, r *http.Request) {
 	util.Send(w, r, "", vouchResponse)
 }
 
+func CreateVouchesHandler(w http.ResponseWriter, r *http.Request) {
+	var vouch []request_response.Vouch
+	decodeErr := render.DecodeJSON(r.Body, &vouch)
+	if decodeErr != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	vouchResponse := service.CreateVouches(vouch)
+	util.Send(w, r, "", vouchResponse)
+}
+
 
 func GetVouchHandler(w http.ResponseWriter, r *http.Request) {
 	t := chi.URLParam(r, "id")

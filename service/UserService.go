@@ -33,6 +33,8 @@ func GetUser(id string) request_response.User {
 		return request_response.User{}
 	}
 	w := GetWallet(usr.PhoneNumber)
+	v := GetAllVouchesForVouchee(usr.PhoneNumber)
+	usr.VouchCount = len(v)
 	return request_response.GetUserRequestResponse(usr,w)
 }
 
@@ -43,4 +45,30 @@ func UpdateUser(user request_response.User) request_response.User {
 	}
 	w := GetWallet(usr.PhoneNumber)
 	return request_response.GetUserRequestResponse(usr,w)
+}
+
+func EnableAutoPay(userId string, autoPayees []string) []request_response.Vouch {
+	var vouches []request_response.Vouch
+	for _,autoPayee := range autoPayees{
+		vouches = append(vouches, request_response.Vouch{
+			VoucheeId: autoPayee,
+			VoucherId: userId,
+			VouchType: models.AutoPay,
+		})
+	}
+
+	return CreateVouches(vouches)
+}
+
+func Vouch(userId string, autoPayees []string) []request_response.Vouch {
+	var vouches []request_response.Vouch
+	for _,autoPayee := range autoPayees{
+		vouches = append(vouches, request_response.Vouch{
+			VoucheeId: autoPayee,
+			VoucherId: userId,
+			VouchType: models.Default,
+		})
+	}
+
+	return CreateVouches(vouches)
 }

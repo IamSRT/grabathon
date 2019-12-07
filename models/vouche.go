@@ -9,11 +9,26 @@ type Vouch struct {
 	Id        int
 	VoucheeId string
 	VoucherId string
+	VouchType string
 }
+
+const (
+	AutoPay = "AUTO_PAY"
+	Default = "DEFAULT"
+)
 
 func CreateVouch(vouch Vouch) (Vouch, error) {
 	db.Create(&vouch)
 	return vouch, nil
+}
+
+func CreateVouches(vouches []Vouch) ([]Vouch, error) {
+	var vchs []Vouch
+	for _, v:= range vouches{
+		db.Create(&v)
+		vchs = append(vchs, v)
+	}
+	return vchs, nil
 }
 
 func GetVouch(id int)(Vouch, error){
@@ -25,7 +40,7 @@ func GetVouch(id int)(Vouch, error){
 
 func GetAllVouchesForVouchee(voucheeId string)([]Vouch, error) {
 	var vouches []Vouch
-	if err := db.Where("vouchee_id = ?", voucheeId).Find(&vouches).Error; err != nil {
+	if err := db.Where("vouchee_id = ? AND vouch_type = ?", voucheeId, Default).Find(&vouches).Error; err != nil {
 		return nil, err
 	}
 
@@ -34,7 +49,7 @@ func GetAllVouchesForVouchee(voucheeId string)([]Vouch, error) {
 
 func GetAllVouchesForVoucher(voucherId string)([]Vouch, error) {
 	var vouches []Vouch
-	if err := db.Where("voucher_id = ?", voucherId).Find(&vouches).Error; err != nil {
+	if err := db.Where("voucher_id = ? AND vouch_type = ?", voucherId, Default).Find(&vouches).Error; err != nil {
 		return nil, err
 	}
 

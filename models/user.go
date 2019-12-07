@@ -36,7 +36,9 @@ func GetAllUsers()([]User, error){
 }
 
 func UpdateUser(user User)(User, error){
-	db.Save(&user)
+	if err := db.Model(&user).Updates(user).Error; err != nil {
+		return User{}, err
+	}
 	return user, nil
 }
 

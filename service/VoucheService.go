@@ -10,6 +10,31 @@ import (
  * © Bundl Technologies Private Ltd.
  */
 
+func CreateVouches(vouches []request_response.Vouch) []request_response.Vouch {
+	var vchs []models.Vouch
+	for _,v := range vouches{
+		vchs = append(vchs, models.Vouch{
+			VoucheeId: v.VoucherId,
+			VoucherId: "",
+			VouchType: "",
+		})
+	}
+	vchs, err := models.CreateVouches(vchs)
+	if err != nil {
+		return []request_response.Vouch{}
+	}
+
+	var vchsResponse []request_response.Vouch
+	for _,v := range vchs{
+		vchsResponse = append(vchsResponse, request_response.Vouch{
+			VoucheeId: v.VoucherId,
+			VoucherId: v.VoucheeId,
+			VouchType: v.VouchType,
+		})
+	}
+	return vchsResponse
+}
+
 func CreateVouch(vouch request_response.Vouch) request_response.Vouch {
 	vch, err := models.CreateVouch(request_response.GetVouchModel(vouch))
 	if err != nil {

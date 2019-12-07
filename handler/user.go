@@ -40,6 +40,30 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	util.Send(w, r, "", userResponse)
 }
 
+func EnableAutoPay(w http.ResponseWriter, r *http.Request) {
+	vouches := request_response.Vouches{}
+	decodeErr := render.DecodeJSON(r.Body, &vouches)
+	if decodeErr != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	userResponse := service.EnableAutoPay(vouches.Voucher, vouches.Vouchees)
+	util.Send(w, r, "", userResponse)
+}
+
+func Vouch(w http.ResponseWriter, r *http.Request) {
+	vouches := request_response.Vouches{}
+	decodeErr := render.DecodeJSON(r.Body, &vouches)
+	if decodeErr != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	userResponse := service.Vouch(vouches.Voucher, vouches.Vouchees)
+	util.Send(w, r, "", userResponse)
+}
+
 func GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 	users := service.GetAllUsers()
 	util.Send(w, r, "", users)

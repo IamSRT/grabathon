@@ -26,6 +26,7 @@ func GetUserRequestResponse(user models.User, w Wallet) User {
 		Name:        user.Name,
 		City:        user.City,
 		VouchCount:  user.VouchCount,
+		AutoPay: user.AutoPay,
 		Wallet:      w,
 	}
 
@@ -38,6 +39,7 @@ func GetUserModel(user User) models.User {
 		Email:       user.Email,
 		Name:        user.Name,
 		City:        user.City,
+		AutoPay: user.AutoPay,
 		VouchCount:  user.VouchCount,
 	}
 

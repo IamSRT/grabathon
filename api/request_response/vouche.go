@@ -11,23 +11,34 @@ type Vouch struct {
 	Id        int
 	VoucheeId string
 	VoucherId string
+	VouchType string
 }
 
 func GetVouchRequestResponse(vouch models.Vouch) Vouch {
+	if vouch.VouchType == ""{
+		vouch.VouchType = models.Default
+	}
+
 	vch := Vouch{
 		Id:        vouch.Id,
 		VoucheeId: vouch.VoucheeId,
 		VoucherId: vouch.VoucherId,
+		VouchType: vouch.VouchType,
 	}
 
 	return vch
 }
 
 func GetVouchModel(vouch Vouch) models.Vouch {
+	if vouch.VouchType == ""{
+		vouch.VouchType = models.Default
+	}
+
 	vch := models.Vouch{
 		Id:        vouch.Id,
 		VoucheeId: vouch.VoucheeId,
 		VoucherId: vouch.VoucherId,
+		VouchType: vouch.VouchType,
 	}
 
 	return vch
