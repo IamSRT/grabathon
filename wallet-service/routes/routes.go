@@ -21,6 +21,7 @@ func ConfigureRoutes(router *chi.Mux) chi.Router {
 			routesv1.AddUserRoutes(r)
 			routesv1.AddWalletRoutes(r)
 			routesv1.AddVouchRoutes(r)
+			routesv1.AddPaymentRoutes(r)
 		})
 	})
 	return router

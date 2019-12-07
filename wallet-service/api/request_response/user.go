@@ -10,13 +10,13 @@ import (
  */
 
 type User struct {
-	PhoneNumber string
-	Email       string
-	Name        string
-	City        string
-	VouchCount  int
-	AutoPay     bool
-	Wallet      Wallet
+	PhoneNumber string `json:"phone_number"`
+	Email       string `json:"email"`
+	Name        string `json:"name"`
+	City        string `json:"city"`
+	VouchCount  int `json:"vouch_count"`
+	AutoPay     bool `json:"auto_pay"`
+	Wallet      Wallet `json:"wallet"`
 }
 
 func GetUserRequestResponse(user models.User, w Wallet) User {

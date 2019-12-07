@@ -8,10 +8,10 @@ import "grabathon/models"
  */
 
 type Payment struct {
-	Id int
-	Status string
-	Type string
-	Transactions []Transaction
+	Id int `json:"id"`
+	Status string `json:"status"`
+	Type string `json:"type"`
+	Transactions []Transaction `json:"transactions"`
 }
 
 func GetPaymentRequestResponse(payment models.Payment, transactions []models.Transaction) Payment {

@@ -46,10 +46,10 @@ func UpdateWalletWithAmount(userId string, amount float64) error {
 }
 
 func UpdateWalletsForTransaction(txn models.Transaction) error {
-	err := UpdateWalletWithAmount(txn.SourceId, -txn.Amount)
-	if err != nil { return err}
+	err := UpdateWalletWithAmount(txn.DestinationId, txn.Amount)
+	if err != nil || txn.TransactionType == models.Load{ return err}
 
-	err = UpdateWalletWithAmount(txn.DestinationId, +txn.Amount)
+	err = UpdateWalletWithAmount(txn.SourceId, -txn.Amount)
 	if err != nil { return err}
 	return err
 }

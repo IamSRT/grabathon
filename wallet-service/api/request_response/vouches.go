@@ -6,5 +6,5 @@ package request_response
  */
 
 type Vouches struct {
-	Vouches []Vouch
+	Vouches []Vouch `json:"vouches"`
 }

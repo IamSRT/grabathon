@@ -8,9 +8,9 @@ import "grabathon/models"
  */
 
 type Wallet struct {
-	Id      int
-	UserId  string
-	Balance float64
+	Id      int `json:"id"`
+	UserId  string `json:"user_id"`
+	Balance float64 `json:"balance"`
 }
 
 func GetWalletRequestResponse(wallet models.Wallet) Wallet {

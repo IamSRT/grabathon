@@ -8,12 +8,12 @@ import "grabathon/models"
  */
 
 type Transaction struct {
-	Id      int
-	SourceId  string
-	DestinationId  string
-	TransactionType  string
-	Status string
-	Amount float64
+	Id      int `json:"id"`
+	SourceId  string `json:"source_id"`
+	DestinationId  string `json:"destination_id"`
+	TransactionType  string `json:"transaction_type"`
+	Status string `json:"status"`
+	Amount float64 `json:"amount"`
 }
 
 func GetTransactionRequestResponse(transaction models.Transaction) Transaction {

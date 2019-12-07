@@ -12,6 +12,7 @@ type Transaction struct {
 	TransactionType  string
 	Status string
 	Amount float64
+	PaymentId int
 }
 
 const(
@@ -23,6 +24,7 @@ const(
 const(
 	TypePayment = "PAYMENT"
 	Lend = "LEND"
+	Load = "LOAD"
 )
 
 func CreateTransaction(t Transaction) (Transaction, error) {

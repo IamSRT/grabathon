@@ -11,13 +11,16 @@ import (
  */
 
 func CreatePayment(payment request_response.Payment) request_response.Payment {
-	p, t := request_response.GetPaymentModel(payment)
+	p, txns := request_response.GetPaymentModel(payment)
 	p, err := models.CreatePayment(p)
 	if err != nil {
 		return request_response.Payment{}
 	}
 
-	txns, err := models.CreateTransactions(t)
+	for i := range txns{
+		txns[i].PaymentId = p.Id
+	}
+	txns, err = models.CreateTransactions(txns)
 	if err != nil {
 		return request_response.Payment{}
 	}

@@ -8,11 +8,11 @@ import "grabathon/models"
  */
 
 type Vouch struct {
-	Id        int
-	VoucheeId string
-	VoucherId string
-	VouchType string
-	Amount    float64
+	Id        int `json:"id"`
+	VoucheeId string `json:"vouchee_id"`
+	VoucherId string `json:"voucher_id"`
+	VouchType string `json:"vouch_type"`
+	Amount    float64 `json:"amount"`
 }
 
 func GetVouchRequestResponse(vouch models.Vouch) Vouch {

@@ -26,8 +26,9 @@ func GetWallet(userId string)(Wallet, error) {
 	return wallet, nil
 }
 
-func UpdateWallet(wallet Wallet)(Wallet, error){
-	if err := db.Model(&wallet).Updates(wallet).Error; err != nil {
+func UpdateWallet(wallet Wallet)(Wallet, error) {
+	var w Wallet
+	if err := db.Where("id = ?", wallet.Id).Find(&w).UpdateColumn("balance", wallet.Balance).Error; err != nil {
 		return Wallet{}, err
 	}
 	return wallet, nil
