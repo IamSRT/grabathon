@@ -8,10 +8,11 @@ import "grabathon/models"
  */
 
 type Vouch struct {
-	Id        int `json:"id"`
-	VoucheeId string `json:"vouchee_id"`
-	VoucherId string `json:"voucher_id"`
-	VouchType string `json:"vouch_type"`
+	Id        int     `json:"id"`
+	VoucheeId string  `json:"vouchee_id"`
+	VoucherId string  `json:"voucher_id"`
+	VouchType string  `json:"vouch_type"`
+	Status    string  `json:"status"`
 	Amount    float64 `json:"amount"`
 }
 
@@ -25,6 +26,7 @@ func GetVouchRequestResponse(vouch models.Vouch) Vouch {
 		VoucheeId: vouch.VoucheeId,
 		VoucherId: vouch.VoucherId,
 		VouchType: vouch.VouchType,
+		Status: vouch.Status,
 		Amount: vouch.Amount,
 	}
 
@@ -41,6 +43,7 @@ func GetVouchModel(vouch Vouch) models.Vouch {
 		VoucheeId: vouch.VoucheeId,
 		VoucherId: vouch.VoucherId,
 		VouchType: vouch.VouchType,
+		Status: vouch.Status,
 		Amount: vouch.Amount,
 	}
 

@@ -11,6 +11,12 @@ import (
  */
 
 func CreatePayment(payment request_response.Payment) request_response.Payment {
+	if payment.Type == models.Lend{
+		payment.Status = models.Pending
+	} else {
+		payment.Status = models.Completed
+	}
+
 	p, txns := request_response.GetPaymentModel(payment)
 	p, err := models.CreatePayment(p)
 	if err != nil {

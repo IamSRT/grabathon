@@ -40,6 +40,8 @@ func CreateTransactions(transactions []Transaction) ([]Transaction, error) {
 	for _, t := range transactions {
 		if t.TransactionType == Lend{
 			t.Status = Pending
+		} else {
+			t.Status = Completed
 		}
 		db.Create(&t)
 		txns = append(txns, t)

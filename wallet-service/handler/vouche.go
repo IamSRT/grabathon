@@ -58,7 +58,7 @@ func GetAllVouchesForVoucherHandler(w http.ResponseWriter, r *http.Request) {
 	util.Send(w, r, "", vouch)
 }
 
-func DeleteVouch(w http.ResponseWriter, r *http.Request) {
+func DeleteVouchHandler(w http.ResponseWriter, r *http.Request) {
 	t := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(t)
 	if err != nil {
@@ -67,4 +67,16 @@ func DeleteVouch(w http.ResponseWriter, r *http.Request) {
 	}
 	vouch := service.DeleteVouch(id)
 	util.Send(w, r, "", vouch)
+}
+
+func UpdateVouchHandler(w http.ResponseWriter, r *http.Request) {
+	vouch := request_response.Vouch{}
+	decodeErr := render.DecodeJSON(r.Body, &vouch)
+	if decodeErr != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	vouchResponse, _ := service.UpdateVouch(vouch)
+	util.Send(w, r, "", vouchResponse)
 }

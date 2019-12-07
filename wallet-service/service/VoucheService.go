@@ -81,3 +81,8 @@ func DeleteVouch(id int) error {
 	err := models.DeleteVouch(v)
 	return err
 }
+
+func UpdateVouch(v request_response.Vouch) (request_response.Vouch,error) {
+	vch, err := models.UpdateVouch(request_response.GetVouchModel(v))
+	return request_response.GetVouchRequestResponse(vch),err
+}

@@ -9,7 +9,7 @@ import (
  */
 
 var (
-	DBConnectionString = "root:@tcp(127.0.0.1:3306)/wallets?charset=utf8mb4&parseTime=True"
+	DBConnectionString = "root:@tcp(localhost:3306)/wallets?charset=utf8mb4&parseTime=True"
 	ServerPort         = "4000"
 	LogLevel           = GetEnv("LOG_LEVEL", "info")
 )

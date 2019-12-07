@@ -10,6 +10,7 @@ type Vouch struct {
 	VoucheeId string
 	VoucherId string
 	VouchType string
+	Status string
 	Amount float64
 }
 
@@ -18,6 +19,11 @@ const (
 	Default = "DEFAULT"
 )
 
+const (
+	Requested = "REQUESTED"
+	Accepted = "ACCEPTED"
+	Rejected = "ACCEPTED"
+)
 func CreateVouch(vouch Vouch) (Vouch, error) {
 	db.Create(&vouch)
 	return vouch, nil
@@ -75,4 +81,12 @@ func GetAllVouchesForVoucher(voucherId string)([]Vouch, error) {
 func DeleteVouch(vouch Vouch) error {
 	db.Delete(&vouch)
 	return nil
+}
+
+func UpdateVouch(vouch Vouch)(Vouch, error){
+	var v Vouch
+	if err := db.Where("id = ?", vouch.Id).Find(&v).Updates(vouch).Error; err != nil {
+		return Vouch{}, err
+	}
+	return vouch, nil
 }
