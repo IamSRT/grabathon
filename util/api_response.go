@@ -2,7 +2,7 @@ package util
 
 import (
 	"github.com/go-chi/render"
-	"grabathon/api/response"
+	"grabathon/api/request_response"
 	"net/http"
 )
 
@@ -11,7 +11,7 @@ func SendInternalServerError(w http.ResponseWriter, r *http.Request, message str
 		message = "Internal Server Error"
 	}
 	render.Status(r, http.StatusInternalServerError)
-	render.JSON(w, r, response.ApiResponse{
+	render.JSON(w, r, request_response.ApiResponse{
 		ApiMessage : message,
 	})
 }
@@ -21,7 +21,7 @@ func SendBadRequest(w http.ResponseWriter, r *http.Request, message string){
 		message = "Bad Request"
 	}
 	render.Status(r, http.StatusBadRequest)
-	render.JSON(w, r, response.ApiResponse{
+	render.JSON(w, r, request_response.ApiResponse{
 		ApiMessage : message,
 	})
 }
@@ -31,12 +31,12 @@ func SendForbidden(w http.ResponseWriter, r *http.Request, message string){
 		message = "Success"
 	}
 	render.Status(r, http.StatusForbidden)
-	render.JSON(w, r, response.ApiResponse{})
+	render.JSON(w, r, request_response.ApiResponse{})
 }
 
 func SendNotFound(w http.ResponseWriter, r *http.Request){
 	render.Status(r, http.StatusNotFound)
-	render.JSON(w, r, response.ApiResponse{})
+	render.JSON(w, r, request_response.ApiResponse{})
 }
 
 func Send(w http.ResponseWriter, r *http.Request, message string, data interface{}){
@@ -44,7 +44,7 @@ func Send(w http.ResponseWriter, r *http.Request, message string, data interface
 		message = "Success"
 	}
 	render.Status(r, http.StatusOK)
-	render.JSON(w, r, response.ApiResponse{
+	render.JSON(w, r, request_response.ApiResponse{
 		ApiMessage : message,
 		Data       : data,
 	})
@@ -55,7 +55,7 @@ func SendCreated(w http.ResponseWriter, r *http.Request, message string, data in
 		message = "Created"
 	}
 	render.Status(r, http.StatusCreated)
-	render.JSON(w, r, response.ApiResponse{
+	render.JSON(w, r, request_response.ApiResponse{
 		ApiMessage : message,
 		Data       : data,
 	})

@@ -1,4 +1,4 @@
-package response
+package request_response
 
 type ApiResponse struct {
 	ApiMessage string      `json:"message,omitempty"`

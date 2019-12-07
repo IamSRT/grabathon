@@ -17,8 +17,9 @@ func ConfigureRoutes(router *chi.Mux) chi.Router {
 	})
 	router.Group(func(router chi.Router){
 		router.Use(middleware.Authenticate)
-		router.Route("/api/v1", func(r chi.Router) {
+		router.Route("/api", func(r chi.Router) {
 			routesv1.AddUserRoutes(r)
+			routesv1.AddWalletRoutes(r)
 		})
 	})
 	return router

@@ -6,11 +6,11 @@ import (
 )
 
 func AddUserRoutes(r chi.Router) chi.Router {
-	r.Get("/user", handler.GetAllUsersHandler)
-	r.Post("/user", handler.CreateUserHandler)
-
-	r.Route("/{id}", func(r chi.Router) {
-		r.Get("/", handler.GetUserHandler)
+	r.Route("/user", func(r chi.Router) {
+		r.Get("/", handler.GetAllUsersHandler)
+		r.Get("/{id}", handler.GetUserHandler)
+		r.Post("/user", handler.CreateUserHandler)
+		r.Put("/user", handler.UpdateUserHandler)
 	})
 	return r
 }

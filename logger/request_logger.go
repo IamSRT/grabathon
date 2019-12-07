@@ -51,7 +51,7 @@ func (l *StructuredLoggerEntry) Write(status, bytes int, elapsed time.Duration) 
 		"resp_elapsed_ms": float64(elapsed.Nanoseconds()) / 1000000.0,
 	})
 
-	l.Logger.Infoln("API response")
+	l.Logger.Infoln("API request_response")
 }
 
 func (l *StructuredLoggerEntry) Panic(v interface{}, stack []byte) {

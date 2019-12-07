@@ -1,8 +1,8 @@
 package service
 
 import (
-	"grabathon/api/request"
-	. "grabathon/models"
+	"grabathon/api/request_response"
+	"grabathon/models"
 )
 
 /**
@@ -10,18 +10,37 @@ import (
  * © Bundl Technologies Private Ltd.
  */
 
-func CreateUser(user request.User) User {
-	usr, err := Create(User{})
+func CreateUser(user request_response.User) request_response.User {
+	usr, err := models.CreateUser(request_response.GetUserModel(user))
 	if err != nil {
-		return User{}
+		return request_response.User{}
 	}
-	return usr
+	w := GetWallet(usr.Id)
+	return request_response.GetUserRequestResponse(usr, w)
 }
 
-func GetAllUsers() []User {
-	return nil
+func GetAllUsers() []request_response.User {
+	_, err := models.GetAllUsers()
+	if err != nil {
+		return []request_response.User{}
+	}
+	return []request_response.User{}
 }
 
-func GetUser() User {
-	return User{}
+func GetUser(id int) request_response.User {
+	usr, err := models.GetUser(id)
+	if err != nil {
+		return request_response.User{}
+	}
+	w := GetWallet(usr.Id)
+	return request_response.GetUserRequestResponse(usr,w)
+}
+
+func UpdateUser(user request_response.User) request_response.User {
+	usr, err := models.UpdateUser(request_response.GetUserModel(user))
+	if err != nil {
+		return request_response.User{}
+	}
+	w := GetWallet(usr.Id)
+	return request_response.GetUserRequestResponse(usr,w)
 }

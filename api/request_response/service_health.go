@@ -1,4 +1,4 @@
-package response
+package request_response
 
 type HealthComponent struct {
 	Type      string `json:"type"`
