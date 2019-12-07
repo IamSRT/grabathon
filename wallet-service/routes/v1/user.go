@@ -18,5 +18,6 @@ func AddUserRoutes(r chi.Router) chi.Router {
 
 	r.Get("/is-auto-pay-enabled", handler.IsAutoPayEnabled)
 	r.Get("/is-vouch-valid", handler.IsVouchValid)
+	r.Get("/user/{id}/pending-payments", handler.GetPendingPaymentsHandler)
 	return r
 }

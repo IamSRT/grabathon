@@ -2,7 +2,7 @@ package models
 
 /**
  * Created by Sai Ravi Teja K on 28, Nov 2019
- * © Bundl Technologies Private Ltd.
+ * © Refugee Inc
  */
 
 type Transaction struct {
@@ -16,13 +16,14 @@ type Transaction struct {
 }
 
 const(
-	Initiated = "INITIATED"
+	Pending = "PENDING"
 	Completed = "COMPLETED"
 	Invalid   = "INVALID"
 )
 
 const(
 	TypePayment = "PAYMENT"
+	RePayment = "REPAYMENT"
 	Lend = "LEND"
 	Load = "LOAD"
 )
@@ -37,6 +38,9 @@ func CreateTransaction(t Transaction) (Transaction, error) {
 func CreateTransactions(transactions []Transaction) ([]Transaction, error) {
 	var txns []Transaction
 	for _, t := range transactions {
+		if t.TransactionType == Lend{
+			t.Status = Pending
+		}
 		db.Create(&t)
 		txns = append(txns, t)
 	}
@@ -52,6 +56,19 @@ func GetTransaction(tId int)(Transaction, error) {
 func GetTransactions(pId int)([]Transaction, error) {
 	var transactions []Transaction
 	db.Where("payment_id = ?", pId).Find(&transactions)
+	return transactions, nil
+}
+
+
+func GetTransactionsFromUser(uId string)([]Transaction, error) {
+	var transactions []Transaction
+	db.Where("source_id = ? and status = ?", uId, Pending).Find(&transactions)
+	return transactions, nil
+}
+
+func GetTransactionsToUser(uId string)([]Transaction, error) {
+	var transactions []Transaction
+	db.Where("destination_id = ? and status = ?", uId, Pending).Find(&transactions)
 	return transactions, nil
 }
 

@@ -35,6 +35,12 @@ func GetPaymentHandler(w http.ResponseWriter, r *http.Request) {
 	util.Send(w, r, "", payment)
 }
 
+func GetPendingPaymentsHandler(w http.ResponseWriter, r *http.Request) {
+	uId := chi.URLParam(r, "id")
+	completeWallet := service.GetPendingPayments(uId)
+	util.Send(w, r, "", completeWallet)
+}
+
 func DeletePaymentHandler(w http.ResponseWriter, r *http.Request) {
 	pId := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(pId)

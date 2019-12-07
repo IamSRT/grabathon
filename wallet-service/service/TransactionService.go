@@ -7,7 +7,7 @@ import (
 
 /**
  * Created by Sai Ravi Teja K on 28, Nov 2019
- * © Bundl Technologies Private Ltd.
+ * © Refugee Inc
  */
 
 func CreateTransaction(wallet request_response.Transaction) request_response.Transaction {
