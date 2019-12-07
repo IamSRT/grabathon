@@ -1,0 +1,10 @@
+{
+	"mongo": {
+		"local": {
+			"host": "localhost"
+		},
+		"prod": {
+			"host": ""
+		}
+	}
+}

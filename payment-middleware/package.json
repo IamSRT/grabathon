@@ -1,0 +1,20 @@
+{
+  "name": "payment-middleware",
+  "version": "1.0.0",
+  "description": "It has the responsibility to maintain chat related contents",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "sharmaadarsh563@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.7"
+  },
+  "dependencies": {
+    "async": "^3.1.0"
+  }
+}
