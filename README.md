@@ -13,9 +13,13 @@ Smart reply service which replies to user’s requests and provides the next set
 Wallet Service
 Wallet Service owns responsibility of User Account Management. It owns following entities:
 User
+
 Wallet
+
 Transactions
+
 Vouches
+
 It provides CRUD apis for above entities with validations. It provides APIs to manipulate User Account Settings and Perform Transactions.
 # Interactive Mobile App
 
