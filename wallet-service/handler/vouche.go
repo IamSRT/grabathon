@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"grabathon/api/request_response"
+	"grabathon/models"
 	"grabathon/service"
 	"grabathon/util"
 	"net/http"
@@ -77,6 +78,30 @@ func UpdateVouchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	vouchResponse, _ := service.UpdateVouch(vouch)
+	vouchResponse, _ := service.UpdateVouch(vouch.Id, vouch.Status)
+	util.Send(w, r, "", vouchResponse)
+}
+
+func AcceptVouch(w http.ResponseWriter, r *http.Request) {
+	t := chi.URLParam(r, "id")
+	id, err := strconv.Atoi(t)
+	if err != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	vouchResponse, _ := service.UpdateVouch(id, models.Accepted)
+	util.Send(w, r, "", vouchResponse)
+}
+
+func RejectVouch(w http.ResponseWriter, r *http.Request) {
+	t := chi.URLParam(r, "id")
+	id, err := strconv.Atoi(t)
+	if err != nil {
+		util.SendInternalServerError(w, r, "Failed to parse input request")
+		return
+	}
+
+	vouchResponse, _ := service.UpdateVouch(id, models.Rejected)
 	util.Send(w, r, "", vouchResponse)
 }

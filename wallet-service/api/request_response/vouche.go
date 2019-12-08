@@ -21,6 +21,10 @@ func GetVouchRequestResponse(vouch models.Vouch) Vouch {
 		vouch.VouchType = models.Default
 	}
 
+	if vouch.Status == ""{
+		vouch.VouchType = models.Requested
+	}
+
 	vch := Vouch{
 		Id:        vouch.Id,
 		VoucheeId: vouch.VoucheeId,
@@ -36,6 +40,10 @@ func GetVouchRequestResponse(vouch models.Vouch) Vouch {
 func GetVouchModel(vouch Vouch) models.Vouch {
 	if vouch.VouchType == ""{
 		vouch.VouchType = models.Default
+	}
+
+	if vouch.Status == ""{
+		vouch.VouchType = models.Requested
 	}
 
 	vch := models.Vouch{
