@@ -2,12 +2,9 @@ package com.grabathon.paymentassistant.web.api.response.vo.base;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.grabathon.paymentassistant.storage.db.wrapper.Step;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StepResponseVO {
 

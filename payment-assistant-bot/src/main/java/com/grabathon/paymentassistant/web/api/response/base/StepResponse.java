@@ -1,16 +1,15 @@
 package com.grabathon.paymentassistant.web.api.response.base;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grabathon.paymentassistant.web.api.response.Requestee;
 import com.grabathon.paymentassistant.web.api.response.Requester;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class StepResponse {
 
     private Requester requester;
-    private Requestee requestee;
+    @JsonProperty ("requestees") private Requestee requestee;
+    private Object data;
 
 }

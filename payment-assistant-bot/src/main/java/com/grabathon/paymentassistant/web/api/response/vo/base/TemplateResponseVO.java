@@ -5,8 +5,9 @@ import com.grabathon.paymentassistant.storage.db.wrapper.Template;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Getter @NoArgsConstructor @AllArgsConstructor
+@Getter @NoArgsConstructor @AllArgsConstructor @ToString
 public class TemplateResponseVO {
 
     @JsonProperty ("message") private String template;

@@ -5,13 +5,15 @@ import com.grabathon.paymentassistant.web.api.response.vo.base.TemplateResponseV
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
-@Getter @NoArgsConstructor @AllArgsConstructor
+@Getter @NoArgsConstructor @AllArgsConstructor @ToString
 public class OrchestratorResponse {
 
     private List<StepResponseVO> steps;
     private List<TemplateResponseVO> templates;
+    private Object data;
 
 }
