@@ -5,7 +5,7 @@ const request = require('request');
 
 const config = require('../config');
 const conversation = require('../services/conversation');
-const messsage = require('../services/message');
+const message = require('../services/message');
 const utilities = require('../utilities');
 
 module.exports = function (app) {
@@ -15,12 +15,19 @@ module.exports = function (app) {
 
 	app.post('/api/conversations', function (req, res) {
 		const params = req.body;
-		const conversationId = req.headers.userid;
+		const senderId = req.headers.userid;
 		const title = params.title;
+		const modeId = params.modeId;
+		const messages = params.messages;
+		const payment = params.payment;
 
 		const createConversationParams = {
-			'conversationId': conversationId,
-			'title': title
+			'conversationId': senderId,
+			'title': title,
+			'messageBlob': {
+				'options': [],
+				'messages': messages
+			}
 		};
 		conversation.create(createConversationParams, function (err, result) {
 			if (err) {
@@ -31,25 +38,39 @@ module.exports = function (app) {
 					'statusMessage': 'Error creating conversation'
 				});
 			}
+			// console.log(result);
 
 			// call Bot for first set of messages to be displayed
             const options = {
-                url: config.getBotConnectionString()
-            };
-			request.get(options, function (botError, botResponse) {
-				if (botError) {
+				method: 'POST',
+				uri: config.getBotConnectionString(modeId),
+				headers : {
+					'content-type': 'application/json'
+				},
+				body: {
+					isRequester: true,
+					UserId: senderId,
+					payment: payment,
+					modeId: modeId,
+                    options: [],
+                    messages: messages
+				},
+				json: true
+			};
+			request(options, function (err, botResponse) {
+				const messageSendParams = {
+					'conversationId': senderId,
+					'senderId': senderId,
+					'requester': botResponse.body.data.requester,
+					'requestees': botResponse.body.data.requestees
+				};
+				message.send(messageSendParams, function () {
 					return res.status(200).send({
-						'status': 'error',
-						'statusCode': 0,
-						'statusMessage': 'Internal error, please try reloading',
-						'data': []
-					});					
-				}
-				return res.status(200).send({
-					'status': 'ok',
-					'statusCode': 1,
-					'statusMessage': 'Conversation Created',
-					'data': []
+						'status': 'ok',
+						'statusCode': 1,
+						'statusMessage': 'Conversation Created',
+						'data': botResponse.body.data
+					});
 				});
 			});
 		});
@@ -61,6 +82,8 @@ module.exports = function (app) {
 		const params = {
 			'conversationId': req.params.conversationId
 		};
+		console.log(req.headers);
+		console.log(params);
 		conversation.get(params, function (err, result) {
 			if (err) {
 				console.log(err);
@@ -111,7 +134,8 @@ module.exports = function (app) {
 			'requester': requester,
 			'requestees': requestees
 		};
-		messsage.send(messageSendParams, function (err, result) {
+		console.log(messageSendParams);
+		message.send(messageSendParams, function (err, result) {
 			if (err) {
 				console.log(err);
 				return res.status(200).send({

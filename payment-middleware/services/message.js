@@ -45,55 +45,60 @@ module.exports = {
                 });
             }
 
-            const options = {
-                url: config.getBotConnectionString(),
-                body: {
-                    senderId: senderId,
-                    action: requester.options,
-                    requestees: requestees
-                }
-            };
-            request.post(options, function (botError, botResponse) {
-                if (botError) {
-                    return callback(botError);
+            conversation.save(function (err) {
+                if (err) {
+                    return callback(err);
                 }
 
-                conversation.save(function (err) {
-                    if (err) {
-                        return callback(err);
-                    }
-    
-                    // broadcasting notifications to requested users
-                    async.each(requestees, function (requestee, eCB) {
-                        Conversations.findOne({ conversationId: requestee.id }, function (err, requesteeConversation) {
-                            if (err) {
-                                return eCB(new Error('Error while sending message to: ' + requestee.id));
-                            }
-    
-                            if (requesteeConversation) {
-                                requesteeConversation.messageBlobList.push({
+                // broadcasting notifications to requested users
+                async.each(requestees, function (requestee, eCB) {
+                    Conversations.findOne({ conversationId: requestee.id }, function (err, requesteeConversation) {
+                        if (err) {
+                            return eCB(new Error('Error while sending message to: ' + requestee.id));
+                        }
+
+                        if (requesteeConversation) {
+                            requesteeConversation.messageBlobList.push({
+                                'options': requestee.options,
+                                'messages': requestee.messages,
+                                'createdAt': Date.now()
+                            });
+        
+                            requesteeConversation.save(eCB);
+                        } else {
+                            const conversationCreateParams = {
+                                'conversationId': requestee.id,
+                                'title': 'New message',
+                                'messageBlob': {
                                     'options': requestee.options,
                                     'messages': requestee.messages,
                                     'createdAt': Date.now()
-                                });
-            
-                                requesteeConversation.save(eCB);
-                            } else {
-                                const conversationCreateParams = {
-                                    'conversationId': requestee.id,
-                                    'title': 'New message',
-                                    'messageBlob': {
-                                        'options': requestee.options,
-                                        'messages': requestee.messages,
-                                        'createdAt': Date.now()
-                                    }
-                                };
-                                conversationService.create(conversationCreateParams, eCB);
-                            }
-                        });
-                    }, callback);
-    
+                                }
+                            };
+                            conversationService.create(conversationCreateParams, eCB);
+                        }
+                    });
+                }, function (err) {
+                    if (hasSelectedOption) {
+                        const options = {
+                            method: 'POST',
+                            uri: config.getBotConnectionString(),
+                            body: {
+                                requesterNumber: senderId,
+                                action: requester.options,
+                                requestees: requestees
+                            },
+                            headers : {
+                                'content-type': 'application/json'
+                            },
+                            json: true
+                        };
+                        request(options, callback);
+                    } else {
+                        return callback();
+                    }
                 });
+
             });
         });
     }

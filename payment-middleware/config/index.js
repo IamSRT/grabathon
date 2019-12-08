@@ -6,8 +6,8 @@ module.exports = {
 		return 'mongodb://' + config.mongo[process.env.NODE_ENV].host + '/middleware';
 	},
 
-	getBotConnectionString: function () {
-		return 'https://' + process.env.BOT_URL;
+	getBotConnectionString: function (modeId) {
+		return 'http://' + process.env.BOT_URL + ':8080/v1/' + modeId + '/next/steps';
 	}
 
 }

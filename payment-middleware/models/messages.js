@@ -17,7 +17,7 @@ const MessageSchema = new Schema({
 const MessageBlobSchema = new Schema({
     messages: [MessageSchema],
     options: [OptionsSchema],
-	createdAt: Number
+	createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = MessageBlobSchema;
