@@ -1,39 +1,38 @@
 package com.grabathon.paymentassistant.orchestration.action;
 
 import com.grabathon.paymentassistant.orchestration.rules.Lambdas;
-import com.grabathon.paymentassistant.web.api.request.base.StepsRequest;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service public class Action {
 
-    public void execute (List<com.grabathon.paymentassistant.storage.db.wrapper.Action> actions, StepsRequest request) {
+    public Object execute (List<com.grabathon.paymentassistant.storage.db.wrapper.Action> actions, JSONObject request) {
         for (com.grabathon.paymentassistant.storage.db.wrapper.Action action : actions) {
             switch (action.getName()) {
                 case "SEND_MONEY":
-                    Lambdas.CreatePayment(request);
-                    break;
+                case "ADD_MONEY":
+                    return Lambdas.CreatePayment(request);
 
                 case "GET_BALANCE":
-                    Lambdas.GetBalance(request);
-                    break;
+                    return Lambdas.GetBalance(request);
 
                 case "ACCEPT_VOUCH":
-                    Lambdas.acceptVouch(request);
-                    break;
+                    return Lambdas.acceptVouch(request);
 
                 case "REJECT_VOUCH":
-                    Lambdas.declineVouch(request);
-                    break;
+                    return Lambdas.declineVouch(request);
 
                 case "REQUEST_VOUCH":
-                    Lambdas.requestVouch(request);
-                    break;
+                    return Lambdas.requestVouch(request);
+
+                case "GET_PENDING_PAYMENTS":
+                    return Lambdas.GetPendingPayment(request);
 
             }
         }
-
+        return null;
     }
 
 }

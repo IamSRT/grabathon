@@ -5,9 +5,9 @@ import com.grabathon.paymentassistant.orchestration.rules.Rules;
 import com.grabathon.paymentassistant.orchestration.template.Template;
 import com.grabathon.paymentassistant.storage.cache.memory.Cache;
 import com.grabathon.paymentassistant.storage.db.wrapper.Step;
-import com.grabathon.paymentassistant.web.api.request.NextStepsRequest;
 import com.grabathon.paymentassistant.web.api.response.vo.base.StepResponseVO;
 import com.grabathon.paymentassistant.web.api.response.vo.base.TemplateResponseVO;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,21 +23,21 @@ import java.util.Objects;
     @Autowired private Action action;
 
 
-    public OrchestratorResponse execute (Long id, NextStepsRequest request) {
-        List<com.grabathon.paymentassistant.storage.db.wrapper.Action> actions = getActions(id, request.isRequester());
-        action.execute(actions, request);
-        List<Step> steps = this.getSteps(id);
+    public OrchestratorResponse execute (Long id, JSONObject request) {
+        List<com.grabathon.paymentassistant.storage.db.wrapper.Action> actions = getActions(id, request.getBoolean("isRequester"));
+        Object data = action.execute(actions, request);
+        List<Step> steps = this.getSteps(id, request);
         List<StepResponseVO> stepResponse = this.transformSteps(steps);
-        List<com.grabathon.paymentassistant.storage.db.wrapper.Template> templates = this.getTemplates(id, request.isRequester());
+        List<com.grabathon.paymentassistant.storage.db.wrapper.Template> templates = this.getTemplates(id, request.getBoolean("isRequester"), data, request);
         List<TemplateResponseVO> templateResponse = this.transformTemplates(templates);
-        return new OrchestratorResponse (stepResponse, templateResponse);
+        return new OrchestratorResponse (stepResponse, templateResponse, data);
     }
 
-    private List<Step> getSteps (Long id) {
+    private List<Step> getSteps (Long id, JSONObject request) {
         List<Step> allSteps = Cache.getNextStepCache().get(id);
         List<Step> validSteps = new LinkedList<>();
         for (Step s : allSteps) {
-            if (rules.check(s)) validSteps.add(s);
+            if (rules.check(s, request)) validSteps.add(s);
         }
         return validSteps;
     }
@@ -66,8 +66,17 @@ import java.util.Objects;
         return Cache.getStepCache().get(id).getRequesteeActions();
     }
 
-    private List<com.grabathon.paymentassistant.storage.db.wrapper.Template> getTemplates (Long id, boolean isRequester) {
-        if (isRequester) return Cache.getStepCache().get(id).getRequesterTemplates();
+    private List<com.grabathon.paymentassistant.storage.db.wrapper.Template> getTemplates (Long id, boolean isRequester, Object data, JSONObject request) {
+        List<com.grabathon.paymentassistant.storage.db.wrapper.Template> templates = new LinkedList<>();
+        if (isRequester) {
+            for (com.grabathon.paymentassistant.storage.db.wrapper.Template template : Cache.getStepCache().get(id).getRequesterTemplates()) {
+                com.grabathon.paymentassistant.storage.db.wrapper.Template tempTemplate = new com.grabathon.paymentassistant.storage.db.wrapper.Template(template);
+                if (4l == template.getId()) tempTemplate.setTemplate(String.format(template.getTemplate(), String.valueOf(data)));
+                if (5l == template.getId() && (Boolean)data) tempTemplate.setTemplate(String.format(template.getTemplate(), request.getString("amount")));
+                templates.add(tempTemplate);
+            }
+            return templates;
+        }
         return Cache.getStepCache().get(id).getRequesteeTemplates();
     }
 
