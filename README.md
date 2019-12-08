@@ -10,8 +10,12 @@ Every request through has to be routed through this middleware which stores all 
 
 
 Smart reply service which replies to user’s requests and provides the next set of actions to be performed by the user. Initially we can have programmed workflows but in future this can be replaced with an AI Bot. 
-Wallet Service
+
+# Wallet Service
+
+
 Wallet Service owns responsibility of User Account Management. It owns following entities:
+
 User
 
 Wallet
